@@ -1,45 +1,43 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
-import { useAuth } from "@/hooks/useAuth";
 
-type PreferenceOption = {
-  label: string;
-  value: string;
-};
-
-const Preferences = () => {
+const Profile = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [animalPreference, setAnimalPreference] = useState<string[]>([]);
   const [homeType, setHomeType] = useState<string>("");
   const [otherPets, setOtherPets] = useState<string[]>([]);
   const [lifestyle, setLifestyle] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
+    loadUserAndPreferences();
+  }, []);
+
+  const loadUserAndPreferences = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+
     if (user) {
-      loadPreferences();
-    }
-  }, [user]);
+      const { data } = await supabase
+        .from("user_preferences")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
 
-  const loadPreferences = async () => {
-    if (!user) return;
-    
-    const { data } = await supabase
-      .from("user_preferences")
-      .select("*")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (data) {
-      setAnimalPreference(data.animal_preference || []);
-      setHomeType(data.home_type || "");
-      setOtherPets(data.other_pets || []);
-      setLifestyle(data.lifestyle || []);
+      if (data) {
+        setAnimalPreference(data.animal_preference || []);
+        setHomeType(data.home_type || "");
+        setOtherPets(data.other_pets || []);
+        setLifestyle(data.lifestyle || []);
+      }
     }
+    setLoading(false);
   };
 
   const toggleSelection = (
@@ -55,44 +53,71 @@ const Preferences = () => {
   };
 
   const handleSave = async () => {
-    if (user) {
-      try {
-        const { error } = await supabase
-          .from("user_preferences")
-          .upsert({
-            user_id: user.id,
-            animal_preference: animalPreference,
-            home_type: homeType,
-            other_pets: otherPets,
-            lifestyle: lifestyle,
-          });
+    if (!user) return;
 
-        if (error) throw error;
-        toast.success("Preferences saved!");
-      } catch (error: any) {
-        toast.error(error.message);
-      }
+    try {
+      const { error } = await supabase
+        .from("user_preferences")
+        .upsert({
+          user_id: user.id,
+          animal_preference: animalPreference,
+          home_type: homeType,
+          other_pets: otherPets,
+          lifestyle: lifestyle,
+        });
+
+      if (error) throw error;
+      toast.success("Preferences saved!");
+      navigate("/feed");
+    } catch (error: any) {
+      toast.error(error.message);
     }
-    navigate("/feed");
   };
 
-  const handleSkip = () => {
-    navigate("/feed");
+  const handleReset = () => {
+    setAnimalPreference([]);
+    setHomeType("");
+    setOtherPets([]);
+    setLifestyle([]);
+    toast.success("Preferences reset");
   };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    toast.success("Signed out");
+    navigate("/");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Tell us what to show you
-          </h1>
-          <p className="text-muted-foreground">
-            We'll use this to personalize your feed. You can skip this and just
-            start scrolling.
-          </p>
+        <div className="flex items-center mb-8">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate("/feed")}
+            className="mr-4"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-3xl font-bold text-foreground">Profile & Preferences</h1>
         </div>
+
+        {user && (
+          <div className="mb-8 p-4 bg-card rounded-lg border border-border">
+            <p className="text-sm text-muted-foreground">Signed in as</p>
+            <p className="font-medium">{user.email}</p>
+          </div>
+        )}
 
         {/* Preferences Form */}
         <div className="space-y-8">
@@ -204,20 +229,30 @@ const Preferences = () => {
             className="w-full rounded-xl"
             size="lg"
           >
-            Save and start scrolling
+            Save Preferences
           </Button>
           <Button
-            onClick={handleSkip}
-            variant="ghost"
-            className="w-full"
+            onClick={handleReset}
+            variant="outline"
+            className="w-full rounded-xl"
             size="lg"
           >
-            Skip for now
+            Reset to Default
           </Button>
+          {user && (
+            <Button
+              onClick={handleSignOut}
+              variant="ghost"
+              className="w-full"
+              size="lg"
+            >
+              Sign Out
+            </Button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Preferences;
+export default Profile;
