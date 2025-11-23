@@ -1,73 +1,68 @@
-# Welcome to your Lovable project
+# Pawmora 🐾
 
-## Project info
+A TikTok-style video feed application designed specifically for pet lovers! Pawmora allows users to scroll through an endless feed of adorable pets, save their favorites, and engage with the community through comments and likes.
 
-**URL**: https://lovable.dev/projects/64c1691f-6e6f-4a6e-a7fe-8bbde6da55e4
+## Features
 
-## How can I edit this code?
+-   **Vertical Video Feed**: Immersive, full-screen portrait video experience optimized for mobile and desktop.
+-   **Interactive Engagement**:
+    -   **Paw Likes**: Show your appreciation with a custom paw-print like button.
+    -   **Comments**: Toggleable comment section to discuss your favorite furry friends.
+    -   **Saves**: Bookmark videos to your personal collection.
+-   **Canadian Content**: Featuring a curated selection of pets from across Canada (Toronto, Vancouver, Montreal, and more!).
+-   **User Authentication**: Secure sign-up and login functionality powered by Supabase.
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+This project is built with a modern, high-performance stack:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/64c1691f-6e6f-4a6e-a7fe-8bbde6da55e4) and start prompting.
+-   **Frontend Framework**: [React](https://react.dev/)
+-   **Build Tool**: [Vite](https://vitejs.dev/)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+-   **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+-   **Backend/Auth**: [Supabase](https://supabase.com/)
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+To run this project locally, follow these steps:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+-   Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1.  **Clone the repository**
+    ```sh
+    git clone <YOUR_GIT_URL>
+    ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2.  **Navigate to the project directory**
+    ```sh
+    cd Pawmora
+    ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3.  **Install dependencies**
+    ```sh
+    npm install
+    ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+4.  **Start the development server**
+    ```sh
+    npm run dev
+    ```
 
-**Edit a file directly in GitHub**
+5.  **Open your browser**
+    Navigate to `http://localhost:8080` (or the port shown in your terminal) to view the app.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
 
-**Use GitHub Codespaces**
+-   `src/pages`: Main application pages (VideoFeed, Profile, etc.).
+-   `src/components`: Reusable UI components.
+-   `src/data`: Mock data and static assets configuration.
+-   `public/videos`: Local video assets.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## License
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/64c1691f-6e6f-4a6e-a7fe-8bbde6da55e4) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project is open source and available under the [MIT License](LICENSE).
