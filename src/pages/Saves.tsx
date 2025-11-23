@@ -1,15 +1,37 @@
 import { mockPets } from "@/data/mockPets";
-import { useSavedPets } from "@/hooks/useSavedPets";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
 import PetDetailView from "@/components/PetDetailView";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthModal } from "@/components/AuthModal";
 
 const Saves = () => {
-  const { savedPetIds } = useSavedPets();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
+  const [savedPetIds, setSavedPetIds] = useState<string[]>([]);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      loadSavedPets();
+    }
+  }, [user]);
+
+  const loadSavedPets = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("saved_pets")
+      .select("pet_id")
+      .eq("user_id", user.id);
+
+    if (data) {
+      setSavedPetIds(data.map((s) => s.pet_id));
+    }
+  };
 
   const savedPets = mockPets.filter((pet) => savedPetIds.includes(pet.id));
 
@@ -23,6 +45,28 @@ const Saves = () => {
         pet={selectedPet}
         onClose={() => setSelectedPetId(null)}
       />
+    );
+  }
+
+  if (!user) {
+    return (
+      <>
+        <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl font-bold">Sign in to view saved pets</h2>
+            <p className="text-muted-foreground">
+              You need to be signed in to save and view pets
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Button onClick={() => setShowAuthModal(true)}>Sign In</Button>
+              <Button variant="outline" onClick={() => navigate("/feed")}>
+                Back to Feed
+              </Button>
+            </div>
+          </div>
+        </div>
+        <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
+      </>
     );
   }
 
@@ -51,7 +95,7 @@ const Saves = () => {
               No saved pets yet
             </h2>
             <p className="text-muted-foreground mb-6">
-              Start pawing pets you love in the feed!
+              Start saving pets you love in the feed!
             </p>
             <Button onClick={() => navigate("/feed")}>
               Go to feed
