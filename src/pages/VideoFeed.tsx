@@ -16,12 +16,13 @@ const VideoFeed = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authAction, setAuthAction] = useState<"save" | "comment">("save");
   const [sessionId] = useState(() => crypto.randomUUID());
-  
+
   const [pawLikes, setPawLikes] = useState<Record<string, number>>({});
   const [userPawLiked, setUserPawLiked] = useState<Record<string, boolean>>({});
   const [savedPets, setSavedPets] = useState<Set<string>>(new Set());
   const [comments, setComments] = useState<any[]>([]);
   const [commentText, setCommentText] = useState("");
+  const [showComments, setShowComments] = useState(false);
   const [showPawAnimation, setShowPawAnimation] = useState(false);
 
   const currentPet = mockPets[currentIndex];
@@ -74,18 +75,22 @@ const VideoFeed = () => {
   const handleNext = () => {
     if (currentIndex < mockPets.length - 1) {
       setCurrentIndex((prev) => prev + 1);
+    } else {
+      setCurrentIndex(0);
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
+    } else {
+      setCurrentIndex(mockPets.length - 1);
     }
   };
 
   const handlePawLike = async () => {
     const alreadyLiked = userPawLiked[currentPet.id];
-    
+
     if (!alreadyLiked) {
       const { error } = await supabase.from("paw_likes").insert({
         pet_id: currentPet.id,
@@ -110,14 +115,14 @@ const VideoFeed = () => {
     }
 
     const isSaved = savedPets.has(currentPet.id);
-    
+
     if (isSaved) {
       await supabase
         .from("saved_pets")
         .delete()
         .eq("user_id", user.id)
         .eq("pet_id", currentPet.id);
-      
+
       const newSaved = new Set(savedPets);
       newSaved.delete(currentPet.id);
       setSavedPets(newSaved);
@@ -127,7 +132,7 @@ const VideoFeed = () => {
         user_id: user.id,
         pet_id: currentPet.id,
       });
-      
+
       setSavedPets(new Set([...savedPets, currentPet.id]));
       toast.success("Pet saved!");
     }
@@ -218,11 +223,10 @@ const VideoFeed = () => {
                 size="icon"
                 onClick={handlePawLike}
                 disabled={userPawLiked[currentPet.id]}
-                className={`h-14 w-14 rounded-full shadow-lg transition-all ${
-                  userPawLiked[currentPet.id]
+                className={`h-14 w-14 rounded-full shadow-lg transition-all ${userPawLiked[currentPet.id]
                     ? "bg-primary hover:bg-primary scale-110"
                     : "bg-white/90 hover:bg-white text-primary"
-                }`}
+                  }`}
               >
                 <span className="text-2xl">🐾</span>
               </Button>
@@ -235,11 +239,10 @@ const VideoFeed = () => {
             <Button
               size="icon"
               onClick={handleSave}
-              className={`h-14 w-14 rounded-full shadow-lg transition-all ${
-                savedPets.has(currentPet.id)
+              className={`h-14 w-14 rounded-full shadow-lg transition-all ${savedPets.has(currentPet.id)
                   ? "bg-primary hover:bg-primary-hover scale-110"
                   : "bg-white/90 hover:bg-white text-primary"
-              }`}
+                }`}
             >
               <Bookmark className={`h-6 w-6 ${savedPets.has(currentPet.id) ? "fill-current" : ""}`} />
             </Button>
@@ -251,6 +254,8 @@ const VideoFeed = () => {
                 if (!user) {
                   setAuthAction("comment");
                   setShowAuthModal(true);
+                } else {
+                  setShowComments(!showComments);
                 }
               }}
               className="h-14 w-14 rounded-full shadow-lg bg-white/90 hover:bg-white text-primary"
@@ -272,7 +277,6 @@ const VideoFeed = () => {
               size="icon"
               variant="secondary"
               onClick={handlePrevious}
-              disabled={currentIndex === 0}
               className="rounded-full shadow-lg bg-white/90 hover:bg-white disabled:opacity-30"
             >
               <ChevronUp className="h-5 w-5" />
@@ -284,7 +288,6 @@ const VideoFeed = () => {
               size="icon"
               variant="secondary"
               onClick={handleNext}
-              disabled={currentIndex === mockPets.length - 1}
               className="rounded-full shadow-lg bg-white/90 hover:bg-white disabled:opacity-30"
             >
               <ChevronDown className="h-5 w-5" />
@@ -294,7 +297,7 @@ const VideoFeed = () => {
       </div>
 
       {/* Comments Section */}
-      {user && (
+      {user && showComments && (
         <div className="p-4 bg-card border-t border-border max-h-48 overflow-y-auto">
           <div className="max-w-2xl mx-auto space-y-3">
             <div className="flex gap-2">
@@ -326,6 +329,8 @@ const VideoFeed = () => {
         onSuccess={() => {
           if (authAction === "save") {
             handleSave();
+          } else if (authAction === "comment") {
+            setShowComments(true);
           }
         }}
       />
