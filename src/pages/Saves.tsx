@@ -51,7 +51,7 @@ const Saves = () => {
   if (!user) {
     return (
       <>
-        <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+        <div className="min-h-screen bg-[#FFF9F5] flex flex-col items-center justify-center p-6">
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-bold">Sign in to view saved pets</h2>
             <p className="text-muted-foreground">
@@ -71,7 +71,7 @@ const Saves = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FFF9F5]">
       {/* Header */}
       <header className="sticky top-0 bg-card border-b border-border z-10 p-4">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
@@ -79,6 +79,7 @@ const Saves = () => {
             variant="ghost"
             size="icon"
             onClick={() => navigate("/feed")}
+            className="text-[#FF4D6D] hover:text-[#FF3355] hover:bg-[#FF4D6D]/10"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -128,8 +129,29 @@ const Saves = () => {
                   <p className="text-sm text-muted-foreground mb-3">
                     {pet.location}
                   </p>
-                  <p className="text-xs text-primary font-medium">
-                    Tap for more info →
+                  <div className="flex flex-col gap-2 mt-4">
+                    <Button
+                      variant="outline"
+                      className="w-full border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement donation logic
+                      }}
+                    >
+                      Donate to shelter
+                    </Button>
+                    <Button
+                      className="w-full bg-[#FF4D6D] hover:bg-[#FF3355] text-white"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement donation logic
+                      }}
+                    >
+                      Donate to {pet.petName}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-primary font-medium mt-3 text-center">
+                    Tap card for more info →
                   </p>
                 </div>
               </div>

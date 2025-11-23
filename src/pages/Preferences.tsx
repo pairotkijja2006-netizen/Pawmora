@@ -27,7 +27,7 @@ const Preferences = () => {
 
   const loadPreferences = async () => {
     if (!user) return;
-    
+
     const { data } = await supabase
       .from("user_preferences")
       .select("*")
@@ -81,7 +81,7 @@ const Preferences = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="min-h-screen bg-[#FFF9F5] p-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -105,10 +105,11 @@ const Preferences = () => {
               {["Dogs", "Cats", "Any"].map((option) => (
                 <Badge
                   key={option}
-                  variant={
-                    animalPreference.includes(option) ? "default" : "outline"
-                  }
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${animalPreference.includes(option)
+                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() =>
                     toggleSelection(option, animalPreference, setAnimalPreference)
                   }
@@ -133,8 +134,11 @@ const Preferences = () => {
               ].map((option) => (
                 <Badge
                   key={option}
-                  variant={homeType === option ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${homeType === option
+                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() => setHomeType(option)}
                 >
                   {option}
@@ -157,8 +161,11 @@ const Preferences = () => {
               ].map((option) => (
                 <Badge
                   key={option}
-                  variant={otherPets.includes(option) ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${otherPets.includes(option)
+                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() =>
                     toggleSelection(option, otherPets, setOtherPets)
                   }
@@ -184,8 +191,11 @@ const Preferences = () => {
               ].map((option) => (
                 <Badge
                   key={option}
-                  variant={lifestyle.includes(option) ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${lifestyle.includes(option)
+                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() =>
                     toggleSelection(option, lifestyle, setLifestyle)
                   }
@@ -201,7 +211,7 @@ const Preferences = () => {
         <div className="mt-12 space-y-3">
           <Button
             onClick={handleSave}
-            className="w-full rounded-xl"
+            className="w-full rounded-xl bg-[#FF4D6D] hover:bg-[#FF3355] text-white"
             size="lg"
           >
             Save and start scrolling

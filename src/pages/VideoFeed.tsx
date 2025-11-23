@@ -208,7 +208,7 @@ const VideoFeed = () => {
   }
 
   return (
-    <div className="h-screen bg-background flex flex-col overflow-hidden">
+    <div className="h-screen bg-[#FFF9F5] flex flex-col overflow-hidden">
       {/* Top Bar */}
       <header className="flex items-center justify-between p-4 bg-card border-b border-border z-10">
         <div className="flex items-center gap-2">
@@ -267,7 +267,7 @@ const VideoFeed = () => {
                 size="icon"
                 onClick={handlePawLike}
                 disabled={userPawLiked[currentPet.id]}
-                className={`h-14 w-14 rounded-full shadow-lg transition-all p-0 overflow-hidden ${userPawLiked[currentPet.id]
+                className={`h-12 w-12 rounded-full shadow-lg transition-all p-0 overflow-hidden ${userPawLiked[currentPet.id]
                   ? "bg-white hover:bg-white scale-110"
                   : "bg-white/90 hover:bg-white"
                   }`}

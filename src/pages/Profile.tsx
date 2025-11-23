@@ -147,7 +147,7 @@ const Profile = () => {
             variant="ghost"
             size="icon"
             onClick={() => navigate("/feed")}
-            className="mr-4"
+            className="mr-4 text-[#FF4D6D] hover:text-[#FF3355] hover:bg-[#FF4D6D]/10"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -172,10 +172,11 @@ const Profile = () => {
               {["Dogs", "Cats", "Any"].map((option) => (
                 <Badge
                   key={option}
-                  variant={
-                    animalPreference.includes(option) ? "default" : "outline"
-                  }
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${animalPreference.includes(option)
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() =>
                     toggleSelection(option, animalPreference, setAnimalPreference)
                   }
@@ -200,8 +201,11 @@ const Profile = () => {
               ].map((option) => (
                 <Badge
                   key={option}
-                  variant={homeType === option ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${homeType === option
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() => setHomeType(option)}
                 >
                   {option}
@@ -224,8 +228,11 @@ const Profile = () => {
               ].map((option) => (
                 <Badge
                   key={option}
-                  variant={otherPets.includes(option) ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${otherPets.includes(option)
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() =>
                     toggleSelection(option, otherPets, setOtherPets)
                   }
@@ -251,8 +258,11 @@ const Profile = () => {
               ].map((option) => (
                 <Badge
                   key={option}
-                  variant={lifestyle.includes(option) ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-base rounded-full"
+                  variant="outline"
+                  className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${lifestyle.includes(option)
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    }`}
                   onClick={() =>
                     toggleSelection(option, lifestyle, setLifestyle)
                   }
@@ -268,7 +278,7 @@ const Profile = () => {
         <div className="mt-12 space-y-3">
           <Button
             onClick={handleSave}
-            className="w-full rounded-xl"
+            className="w-full rounded-xl bg-[#FF4D6D] hover:bg-[#FF3355] text-white"
             size="lg"
           >
             Save Preferences
@@ -276,7 +286,7 @@ const Profile = () => {
           <Button
             onClick={handleReset}
             variant="outline"
-            className="w-full rounded-xl"
+            className="w-full rounded-xl border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
             size="lg"
           >
             Reset to Default
