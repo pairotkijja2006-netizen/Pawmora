@@ -235,10 +235,10 @@ const VideoFeed = () => {
       {/* Video Container */}
       <div className="flex-1 relative flex items-center justify-center overflow-hidden">
         {/* Video */}
-        <div className="relative w-full h-full max-w-2xl">
+        <div className="relative w-full h-full max-w-2xl bg-black">
           <video
             key={currentPet.videoUrl}
-            className="w-full h-full object-cover rounded-none md:rounded-2xl"
+            className="w-full h-full object-contain rounded-none md:rounded-2xl"
             autoPlay
             loop
             muted
@@ -267,12 +267,16 @@ const VideoFeed = () => {
                 size="icon"
                 onClick={handlePawLike}
                 disabled={userPawLiked[currentPet.id]}
-                className={`h-14 w-14 rounded-full shadow-lg transition-all ${userPawLiked[currentPet.id]
-                  ? "bg-primary hover:bg-primary scale-110"
-                  : "bg-white/90 hover:bg-white text-primary"
+                className={`h-14 w-14 rounded-full shadow-lg transition-all p-0 overflow-hidden ${userPawLiked[currentPet.id]
+                  ? "bg-white hover:bg-white scale-110"
+                  : "bg-white/90 hover:bg-white"
                   }`}
               >
-                <span className="text-2xl">🐾</span>
+                <img
+                  src={userPawLiked[currentPet.id] ? "/paw-colored.png" : "/paw-black.png"}
+                  alt="Like"
+                  className="w-full h-full object-cover"
+                />
               </Button>
               <span className="text-white text-sm font-bold bg-black/50 px-2 py-1 rounded-full">
                 {pawLikes[currentPet.id] || 0}
