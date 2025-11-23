@@ -5,24 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
   const [animalPreference, setAnimalPreference] = useState<string[]>([]);
   const [homeType, setHomeType] = useState<string>("");
   const [otherPets, setOtherPets] = useState<string[]>([]);
   const [lifestyle, setLifestyle] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    loadUserAndPreferences();
-  }, []);
+    if (!authLoading) {
+      loadPreferences();
+    }
+  }, [user, authLoading]);
 
-  const loadUserAndPreferences = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-
+  const loadPreferences = async () => {
     if (user) {
       const { data } = await supabase
         .from("user_preferences")
@@ -45,6 +45,30 @@ const Profile = () => {
     currentState: string[],
     setter: (val: string[]) => void
   ) => {
+    // Special handling for Animal Preference "Any" logic
+    if (setter === setAnimalPreference) {
+      if (value === "Any") {
+        // If selecting Any, clear others. If deselecting Any, just remove it.
+        if (currentState.includes("Any")) {
+          setter([]);
+        } else {
+          setter(["Any"]);
+        }
+        return;
+      } else {
+        // If selecting specific animal, remove Any
+        let newState = currentState.includes(value)
+          ? currentState.filter((v) => v !== value)
+          : [...currentState, value];
+
+        if (newState.includes("Any")) {
+          newState = newState.filter(v => v !== "Any");
+        }
+        setter(newState);
+        return;
+      }
+    }
+
     if (currentState.includes(value)) {
       setter(currentState.filter((v) => v !== value));
     } else {
@@ -64,7 +88,7 @@ const Profile = () => {
           home_type: homeType,
           other_pets: otherPets,
           lifestyle: lifestyle,
-        });
+        }, { onConflict: 'user_id' });
 
       if (error) throw error;
       toast.success("Preferences saved!");
@@ -74,12 +98,30 @@ const Profile = () => {
     }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     setAnimalPreference([]);
     setHomeType("");
     setOtherPets([]);
     setLifestyle([]);
-    toast.success("Preferences reset");
+
+    if (user) {
+      try {
+        const { error } = await supabase
+          .from("user_preferences")
+          .upsert({
+            user_id: user.id,
+            animal_preference: [],
+            home_type: "",
+            other_pets: [],
+            lifestyle: [],
+          }, { onConflict: 'user_id' });
+
+        if (error) throw error;
+        toast.success("Preferences reset");
+      } catch (error: any) {
+        toast.error("Failed to reset preferences");
+      }
+    }
   };
 
   const handleSignOut = async () => {
@@ -88,7 +130,7 @@ const Profile = () => {
     navigate("/");
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-muted-foreground">Loading...</p>

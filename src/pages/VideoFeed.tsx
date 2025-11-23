@@ -24,14 +24,51 @@ const VideoFeed = () => {
   const [commentText, setCommentText] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [showPawAnimation, setShowPawAnimation] = useState(false);
+  const [filteredPets, setFilteredPets] = useState(mockPets);
 
-  const currentPet = mockPets[currentIndex];
+  const currentPet = filteredPets[currentIndex];
 
   useEffect(() => {
-    loadPawLikes();
-    loadSavedPets();
-    loadComments();
-  }, [currentPet.id, user]);
+    loadUserPreferences();
+  }, [user]);
+
+  useEffect(() => {
+    if (currentPet) {
+      loadPawLikes();
+      loadSavedPets();
+      loadComments();
+    }
+  }, [currentPet?.id, user]);
+
+  const loadUserPreferences = async () => {
+    if (!user) {
+      setFilteredPets(mockPets);
+      return;
+    }
+
+    const { data } = await supabase
+      .from("user_preferences")
+      .select("animal_preference")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (data && data.animal_preference && data.animal_preference.length > 0) {
+      const prefs = data.animal_preference;
+      if (prefs.includes("Any")) {
+        setFilteredPets(mockPets);
+      } else {
+        const filtered = mockPets.filter((pet) => {
+          if (pet.species === "Dog" && prefs.includes("Dogs")) return true;
+          if (pet.species === "Cat" && prefs.includes("Cats")) return true;
+          return false;
+        });
+        setFilteredPets(filtered.length > 0 ? filtered : mockPets);
+      }
+    } else {
+      setFilteredPets(mockPets);
+    }
+    setCurrentIndex(0);
+  };
 
   const loadPawLikes = async () => {
     const { data, count } = await supabase
@@ -73,7 +110,7 @@ const VideoFeed = () => {
   };
 
   const handleNext = () => {
-    if (currentIndex < mockPets.length - 1) {
+    if (currentIndex < filteredPets.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
       setCurrentIndex(0);
@@ -84,7 +121,7 @@ const VideoFeed = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
     } else {
-      setCurrentIndex(mockPets.length - 1);
+      setCurrentIndex(filteredPets.length - 1);
     }
   };
 
@@ -162,13 +199,20 @@ const VideoFeed = () => {
     }
   };
 
+  if (!currentPet) {
+    return (
+      <div className="h-screen bg-background flex items-center justify-center">
+        <p>No pets found matching your preferences.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
       {/* Top Bar */}
       <header className="flex items-center justify-between p-4 bg-card border-b border-border z-10">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🐾</span>
-          <h1 className="text-xl font-bold text-foreground">Pawmora</h1>
+          <img src="/logo.png" alt="Pawmora" className="h-14 w-auto" />
         </div>
         <div className="flex gap-2">
           <Button
@@ -224,8 +268,8 @@ const VideoFeed = () => {
                 onClick={handlePawLike}
                 disabled={userPawLiked[currentPet.id]}
                 className={`h-14 w-14 rounded-full shadow-lg transition-all ${userPawLiked[currentPet.id]
-                    ? "bg-primary hover:bg-primary scale-110"
-                    : "bg-white/90 hover:bg-white text-primary"
+                  ? "bg-primary hover:bg-primary scale-110"
+                  : "bg-white/90 hover:bg-white text-primary"
                   }`}
               >
                 <span className="text-2xl">🐾</span>
@@ -240,8 +284,8 @@ const VideoFeed = () => {
               size="icon"
               onClick={handleSave}
               className={`h-14 w-14 rounded-full shadow-lg transition-all ${savedPets.has(currentPet.id)
-                  ? "bg-primary hover:bg-primary-hover scale-110"
-                  : "bg-white/90 hover:bg-white text-primary"
+                ? "bg-primary hover:bg-primary-hover scale-110"
+                : "bg-white/90 hover:bg-white text-primary"
                 }`}
             >
               <Bookmark className={`h-6 w-6 ${savedPets.has(currentPet.id) ? "fill-current" : ""}`} />

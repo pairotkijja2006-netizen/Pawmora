@@ -8,14 +8,14 @@ const Welcome = () => {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-8">
         {/* Logo */}
-        <div className="space-y-4">
-          <div className="inline-block p-6 bg-primary/10 rounded-full">
-            <span className="text-7xl">🐾</span>
+        <div className="space-y-4 flex flex-col items-center">
+          <div className="w-48 h-48 relative">
+            <img
+              src="/logo.png"
+              alt="Pawmora Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
-          <h1 className="text-5xl font-bold text-foreground">Pawmora</h1>
-          <p className="text-xl text-muted-foreground">
-            Doomscroll, but it's all pets.
-          </p>
         </div>
 
         {/* Get Started Button */}
