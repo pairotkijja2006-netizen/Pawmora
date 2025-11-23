@@ -8,6 +8,7 @@ import Preferences from "./pages/Preferences";
 import VideoFeed from "./pages/VideoFeed";
 import Saves from "./pages/Saves";
 import Profile from "./pages/Profile";
+import Upload from "./pages/Upload";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/feed" element={<VideoFeed />} />
           <Route path="/saves" element={<Saves />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/upload" element={<Upload />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

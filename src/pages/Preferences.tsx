@@ -65,7 +65,7 @@ const Preferences = () => {
             home_type: homeType,
             other_pets: otherPets,
             lifestyle: lifestyle,
-          });
+          }, { onConflict: 'user_id' });
 
         if (error) throw error;
         toast.success("Preferences saved!");
@@ -107,8 +107,8 @@ const Preferences = () => {
                   key={option}
                   variant="outline"
                   className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${animalPreference.includes(option)
-                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
-                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
                     }`}
                   onClick={() =>
                     toggleSelection(option, animalPreference, setAnimalPreference)
@@ -136,8 +136,8 @@ const Preferences = () => {
                   key={option}
                   variant="outline"
                   className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${homeType === option
-                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
-                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
                     }`}
                   onClick={() => setHomeType(option)}
                 >
@@ -163,8 +163,8 @@ const Preferences = () => {
                   key={option}
                   variant="outline"
                   className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${otherPets.includes(option)
-                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
-                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
                     }`}
                   onClick={() =>
                     toggleSelection(option, otherPets, setOtherPets)
@@ -193,8 +193,8 @@ const Preferences = () => {
                   key={option}
                   variant="outline"
                   className={`cursor-pointer px-4 py-2 text-base rounded-full transition-colors ${lifestyle.includes(option)
-                      ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
-                      : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
+                    ? "bg-[#FF4D6D] text-white border-[#FF4D6D] hover:bg-[#FF3355]"
+                    : "border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
                     }`}
                   onClick={() =>
                     toggleSelection(option, lifestyle, setLifestyle)
@@ -218,8 +218,8 @@ const Preferences = () => {
           </Button>
           <Button
             onClick={handleSkip}
-            variant="ghost"
-            className="w-full"
+            variant="outline"
+            className="w-full border-[#FF4D6D] text-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white"
             size="lg"
           >
             Skip for now

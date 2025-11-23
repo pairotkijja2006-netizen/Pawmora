@@ -12,12 +12,12 @@ const PetDetailView = ({ pet, onClose }: PetDetailViewProps) => {
   const handleAdopt = () => {
     alert(
       "In a full app, this would send your interest to the shelter.\n\n" +
-        `You'd be contacting ${pet.shelter} about ${pet.petName}!`
+      `You'd be contacting ${pet.shelter} about ${pet.petName}!`
     );
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FFF9F5]">
       {/* Header */}
       <header className="sticky top-0 bg-card border-b border-border z-10 p-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -81,7 +81,7 @@ const PetDetailView = ({ pet, onClose }: PetDetailViewProps) => {
         </div>
 
         {/* Adoption CTA */}
-        <div className="bg-primary/10 rounded-2xl p-6 border border-primary/20">
+        <div className="bg-[#FF4D6D]/10 rounded-2xl p-6 border border-[#FF4D6D]/20">
           <h3 className="text-xl font-bold text-foreground mb-2">
             Ready to adopt?
           </h3>
@@ -89,7 +89,7 @@ const PetDetailView = ({ pet, onClose }: PetDetailViewProps) => {
             Contact {pet.shelter} to learn more about {pet.petName} and start
             the adoption process.
           </p>
-          <Button onClick={handleAdopt} size="lg" className="w-full">
+          <Button onClick={handleAdopt} size="lg" className="w-full bg-[#FF4D6D] hover:bg-[#FF3355] text-white">
             I want to adopt
           </Button>
         </div>

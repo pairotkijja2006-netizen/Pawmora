@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { mockPets } from "@/data/mockPets";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bookmark, ChevronDown, ChevronUp, User, MessageCircle } from "lucide-react";
+import { Bookmark, ChevronDown, ChevronUp, User, MessageCircle, Upload as UploadIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthModal } from "@/components/AuthModal";
@@ -215,10 +215,21 @@ const VideoFeed = () => {
           <img src="/logo.png" alt="Pawmora" className="h-14 w-auto" />
         </div>
         <div className="flex gap-2">
+          {user && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/upload")}
+              className="text-[#FF4D6D] hover:text-[#FF3355] hover:bg-[#FF4D6D]/10"
+            >
+              <UploadIcon className="h-5 w-5" />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate("/saves")}
+            className="text-[#FF4D6D] hover:text-[#FF3355] hover:bg-[#FF4D6D]/10"
           >
             <Bookmark className="h-5 w-5" />
           </Button>
@@ -226,6 +237,7 @@ const VideoFeed = () => {
             variant="ghost"
             size="icon"
             onClick={() => navigate("/profile")}
+            className="text-[#FF4D6D] hover:text-[#FF3355] hover:bg-[#FF4D6D]/10"
           >
             <User className="h-5 w-5" />
           </Button>
@@ -288,8 +300,8 @@ const VideoFeed = () => {
               size="icon"
               onClick={handleSave}
               className={`h-14 w-14 rounded-full shadow-lg transition-all ${savedPets.has(currentPet.id)
-                ? "bg-primary hover:bg-primary-hover scale-110"
-                : "bg-white/90 hover:bg-white text-primary"
+                ? "bg-[#FF4D6D] hover:bg-[#FF3355] text-white scale-110"
+                : "bg-white/90 hover:bg-white text-[#FF4D6D]"
                 }`}
             >
               <Bookmark className={`h-6 w-6 ${savedPets.has(currentPet.id) ? "fill-current" : ""}`} />
@@ -306,7 +318,7 @@ const VideoFeed = () => {
                   setShowComments(!showComments);
                 }
               }}
-              className="h-14 w-14 rounded-full shadow-lg bg-white/90 hover:bg-white text-primary"
+              className="h-14 w-14 rounded-full shadow-lg bg-white/90 hover:bg-white text-[#FF4D6D]"
             >
               <MessageCircle className="h-6 w-6" />
             </Button>
