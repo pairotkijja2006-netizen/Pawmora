@@ -62,7 +62,3 @@ To run this project locally, follow these steps:
 -   `src/components`: Reusable UI components.
 -   `src/data`: Mock data and static assets configuration.
 -   `public/videos`: Local video assets.
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
