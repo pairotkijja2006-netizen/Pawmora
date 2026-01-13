@@ -39,7 +39,7 @@ class MockQueryBuilder {
     table: string;
     filters: Array<(row: any) => boolean>;
     modifiers: any;
-    op: 'select' | 'insert' | 'update' | 'delete';
+    op: 'select' | 'insert' | 'update' | 'delete' | 'upsert';
     payload: any;
 
     constructor(table: string) {
