@@ -158,6 +158,9 @@ const Profile = () => {
           <div className="mb-8 p-4 bg-card rounded-lg border border-border">
             <p className="text-sm text-muted-foreground">Signed in as</p>
             <p className="font-medium">{user.email}</p>
+            <Badge variant="secondary" className="mt-2 bg-[#FF4D6D]/10 text-[#FF4D6D] border-0">
+              My Second Hackathon 🚀
+            </Badge>
           </div>
         )}
 
