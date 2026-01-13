@@ -1,6 +1,6 @@
 # Pawmora 🐾
 
-A TikTok-style video feed application designed specifically for pet lovers! Pawmora allows users to scroll through an endless feed of adorable pets, save their favorites, and engage with the community through comments and likes.
+A TikTok-style video feed application designed specifically for pet lovers! Pawmora allows users to scroll through an endless feed of adorable pets, save their favorites, and engage with the community through comments and likes. This platform helps shelters showcase their pets to a wider audience and increase their chances of adoption.
 
 ## Features
 
