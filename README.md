@@ -75,9 +75,3 @@ By combining short-form video with interactive features, the platform:
 - Builds stronger emotional connections  
 - Improves pet-owner matching  
 - Encourages more successful adoptions  
-
-### Installation
-
-1. **Clone the repository**
-```sh
-git clone <YOUR_GIT_URL>
