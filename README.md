@@ -76,16 +76,6 @@ By combining short-form video with interactive features, the platform:
 - Improves pet-owner matching  
 - Encourages more successful adoptions  
 
----
-
-## ⚙️ Getting Started
-
-### Prerequisites
-- Node.js & npm installed  
-- (Recommended) install using nvm: https://github.com/nvm-sh/nvm#installing-and-updating  
-
----
-
 ### Installation
 
 1. **Clone the repository**
