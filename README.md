@@ -5,7 +5,8 @@ A TikTok-style video platform designed to make pet adoption more engaging, acces
 ---
 
 ## ▶️ Live Demo
-👉 https://pawmora.vercel.app  
+👉 https://pawmora.vercel.app
+*(The current version's visuals and functions might be a bit buggy)*
 
 ## 🏆 Devpost
 👉 https://devpost.com/software/pawmora  
